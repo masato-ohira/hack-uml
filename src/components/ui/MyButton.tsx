@@ -5,7 +5,7 @@ type ButtonProps = {
   variant: string
 }
 
-const MyButton = (props: ButtonProps) => {
+export const MyButton = (props: ButtonProps) => {
   let bgColor, textColor, hoverBgColor
 
   switch (props.variant) {
@@ -38,5 +38,3 @@ const MyButton = (props: ButtonProps) => {
     </button>
   )
 }
-
-export default MyButton

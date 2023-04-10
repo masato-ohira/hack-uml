@@ -6,7 +6,7 @@ type StackProps = {
   children: ReactNode
 }
 
-const ChakraUIStack = ({ direction, spacing = 3, children }: StackProps) => {
+export const MyStack = ({ direction, spacing = 3, children }: StackProps) => {
   const flexDirection =
     direction === 'row' ? 'flex-row' : direction === 'column' ? 'flex-col' : ''
 
@@ -27,5 +27,3 @@ const ChakraUIStack = ({ direction, spacing = 3, children }: StackProps) => {
     </div>
   )
 }
-
-export default ChakraUIStack
