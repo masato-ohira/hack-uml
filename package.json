@@ -12,31 +12,36 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "dayjs": "^1.11.7",
+    "lodash-es": "^4.17.21",
+    "react": "18.2.0",
+    "react-ace": "^10.1.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.8.0",
+    "react-no-ssr": "^1.1.0",
+    "recoil": "^0.7.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@emotion/babel-plugin": "^11.10.6",
+    "@types/lodash-es": "^4.17.7",
     "@types/node": "18.15.11",
     "@types/react": "18.0.33",
     "@types/react-dom": "18.0.11",
-    "autoprefixer": "10.4.14",
-    "dayjs": "^1.11.7",
-    "eslint": "^8.37.0",
-    "eslint-config-next": "13.3.0",
-    "lodash-es": "^4.17.21",
-    "next": "13.3.0",
-    "postcss": "8.4.21",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-icons": "^4.8.0",
-    "recoil": "^0.7.7",
-    "tailwindcss": "3.3.1",
-    "typescript": "5.0.3"
-  },
-  "devDependencies": {
-    "@types/lodash-es": "^4.17.7",
     "@types/recoil": "^0.0.9",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
+    "autoprefixer": "10.4.14",
+    "eslint": "^8.38.0",
+    "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "next": "13.3.0",
     "next-intercept-stdout": "^1.0.1",
-    "prettier": "^2.8.7"
+    "postcss": "8.4.21",
+    "prettier": "^2.8.7",
+    "tailwindcss": "3.3.1",
+    "typescript": "5.0.3",
+    "xwind": "^0.8.0"
   }
 }

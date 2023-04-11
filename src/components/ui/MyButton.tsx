@@ -1,14 +1,19 @@
 import { ReactNode } from 'react'
 
 type ButtonProps = {
+  padding?: string
+  variant?: string
   children: ReactNode
-  variant: string
 }
 
-export const MyButton = (props: ButtonProps) => {
+export const MyButton = ({
+  variant = 'primary',
+  padding = 'px-4 py-2',
+  children,
+}: ButtonProps) => {
   let bgColor, textColor, hoverBgColor
 
-  switch (props.variant) {
+  switch (variant) {
     case 'primary':
       bgColor = 'bg-blue-500'
       textColor = 'text-white'
@@ -32,9 +37,9 @@ export const MyButton = (props: ButtonProps) => {
 
   return (
     <button
-      className={`px-4 py-2 rounded-lg font-medium focus:outline-none ${bgColor} ${textColor} ${hoverBgColor}`}
+      className={`flex flex-wrap items-center space-x-1 ${padding} rounded-lg font-medium focus:outline-none ${bgColor} ${textColor} ${hoverBgColor}`}
     >
-      {props.children}
+      {children}
     </button>
   )
 }
