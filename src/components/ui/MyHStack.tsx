@@ -1,23 +1,25 @@
 import { ReactNode } from 'react'
+import classNames from 'classnames'
 
 type StackProps = {
-  spacing?: number | string
+  gap?: string
   center?: boolean
   children: ReactNode
 }
 
 export const MyHStack = ({
-  spacing = 3,
+  gap = 'gap-3',
   center = false,
   children,
 }: StackProps) => {
   return (
     <div
-      className={[
-        `flex flex-wrap`,
-        `space-x-${spacing}`,
+      className={classNames([
+        'flex',
+        'flex-wrap',
+        gap,
         center ? 'items-center' : '',
-      ].join(' ')}
+      ])}
     >
       {children}
     </div>
