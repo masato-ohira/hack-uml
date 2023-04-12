@@ -1,13 +1,16 @@
-import { MyContainer, MyGrid } from '@/components/ui'
-import { MyArticleBox } from '@/components/views/MyArticleBox'
-import { css, Global } from '@emotion/react'
 import dayjs from 'dayjs'
 import { times } from 'lodash-es'
 import { useMemo } from 'react'
 
+import { useNotesEntries, NotesEntryType } from '@/recoil/notes'
+import { MyContainer, MyGrid } from '@/components/ui'
+import { MyArticleBox } from '@/components/views/MyArticleBox'
+
 // import { useImages } from '@/recoil/images'
 
 const Index = () => {
+  const { entries } = useNotesEntries()
+
   const posts = useMemo(() => {
     return times(16, (n) => {
       const date = dayjs().add(-1 * n, 'hour')
@@ -21,16 +24,9 @@ const Index = () => {
 
   return (
     <>
-      <Global
-        styles={css`
-          html {
-            background-color: #222;
-          }
-        `}
-      />
       <MyContainer>
         <MyGrid gap={'gap-3 lg:gap-6'}>
-          {posts.map((i, key) => {
+          {entries.map((i: NotesEntryType, key) => {
             return (
               <MyArticleBox
                 key={key}

@@ -1,7 +1,9 @@
 import React from 'react'
+import NextLink from 'next/link'
+
+import { umlTitle } from '@/recoil/notes'
 import { MdPushPin, MdClose } from 'react-icons/md'
 import { MyBox } from '@/components/ui'
-import NextLink from 'next/link'
 
 type ArticleProps = {
   id: string
@@ -20,9 +22,8 @@ export const MyArticleBox = ({ id, date, content = '' }: ArticleProps) => {
       <a className={`${className} right-2`}>
         <MdClose />
       </a>
-      <NextLink className='p-8 block' href={`/posts/${id}`}>
-        <div>{id}</div>
-        <div>{content}</div>
+      <NextLink className='p-8 block' href={`/notes/${id}`}>
+        <div>{umlTitle(content)}</div>
         <div>{date}</div>
       </NextLink>
     </MyBox>
