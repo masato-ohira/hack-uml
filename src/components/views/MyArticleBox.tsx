@@ -5,6 +5,8 @@ import { umlTitle } from '@/recoil/notes'
 import { MdPushPin, MdClose } from 'react-icons/md'
 import { MyBox } from '@/components/ui'
 
+import { useNotesEntries } from '@/recoil/notes'
+
 type ArticleProps = {
   id: string
   date: string
@@ -12,14 +14,22 @@ type ArticleProps = {
 }
 
 export const MyArticleBox = ({ id, date, content = '' }: ArticleProps) => {
+  const { removeEntry } = useNotesEntries()
   const className =
     'block absolute top-2 text-2xl text-gray-400 hover:text-gray-900'
+
+  const deleteFunc = () => {
+    if (confirm('削除してよろしいですか？')) {
+      removeEntry(id)
+    }
+  }
+
   return (
     <MyBox myClass='p-0 relative'>
       <a className={`${className} left-2`}>
         <MdPushPin />
       </a>
-      <a className={`${className} right-2`}>
+      <a className={`${className} right-2`} onClick={deleteFunc}>
         <MdClose />
       </a>
       <NextLink className='p-8 block' href={`/notes/${id}`}>

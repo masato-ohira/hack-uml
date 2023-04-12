@@ -4,21 +4,42 @@ import { BsLayoutSplit } from 'react-icons/bs'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 import { useEditor } from '@/recoil/editor'
-import classNames from 'classnames'
+import { useNotesEntries } from '@/recoil/notes'
+import clsx from 'clsx'
+import dayjs from 'dayjs'
+import { v4 as uuidV4 } from 'uuid'
 
 export const MyHeader = () => {
-  const route = useRouter()
+  const router = useRouter()
   const { mode, setMode, isActive } = useEditor()
+  const { addEntry } = useNotesEntries()
 
   const setButtonClass = (key: string) => {
-    const defaultClass = `bg-white border border-r-0 last:border border-gray-300 hover:bg-gray-100 text-gray-700 py-1.5 px-3 last:rounded-r-md first:rounded-l-md text-xl`
-    const activeClass = `bg-gray-300 hover:bg-gray-300`
+    const defaultClass = `border border-r-0 last:border border-gray-300 text-gray-700 py-1.5 px-3 last:rounded-r-md first:rounded-l-md text-xl`
+    const bgClass = `bg-white hover:bg-gray-100`
+    const bgClassActive = `bg-gray-300 hover:bg-gray-300`
 
     if (isActive(key)) {
-      return classNames(defaultClass, activeClass)
+      return clsx(defaultClass, bgClassActive)
     } else {
-      return defaultClass
+      return clsx(defaultClass, bgClass)
     }
+  }
+
+  const addNewEntry = () => {
+    const noteID = uuidV4()
+    router.push(`/notes/${noteID}`)
+    addEntry({
+      id: noteID,
+      date: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+      content: `
+@startuml
+title タイトルを入力してください
+start
+stop
+@enduml
+      `,
+    })
   }
 
   return (
@@ -28,7 +49,7 @@ export const MyHeader = () => {
           <NextLink href={'/'}>
             <h1 className={'font-bold text-lg'}>HackUML</h1>
           </NextLink>
-          {route.query.id && (
+          {router.query.id && (
             <>
               <div className='flex'>
                 <button
@@ -59,10 +80,17 @@ export const MyHeader = () => {
             </>
           )}
         </MyHStack>
-        <MyButton padding={'px-3 py-1'}>
-          <MdAdd size={18} />
-          <span>新規登録</span>
-        </MyButton>
+        <a
+          className='block'
+          onClick={() => {
+            addNewEntry()
+          }}
+        >
+          <MyButton padding={'px-3 py-1'}>
+            <MdAdd size={18} />
+            <span>新規登録</span>
+          </MyButton>
+        </a>
       </div>
     </>
   )
