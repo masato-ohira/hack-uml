@@ -1,12 +1,13 @@
-import React from 'react'
+import classNames from 'classnames'
 import NextLink from 'next/link'
+import dayjs from 'dayjs'
+import localeJa from 'dayjs/locale/ja'
 
 import { umlTitle } from '@/recoil/notes'
-import { MdPushPin, MdClose } from 'react-icons/md'
-import { MyBox } from '@/components/ui'
-import classNames from 'classnames'
-
 import { useNotesEntries, NotesEntryType } from '@/recoil/notes'
+
+import { MyBox } from '@/components/ui'
+import { MdPushPin, MdClose } from 'react-icons/md'
 
 export const MyArticleBox = ({
   id,
@@ -15,6 +16,7 @@ export const MyArticleBox = ({
   favorite,
 }: NotesEntryType) => {
   const { removeEntry, toggleFavorite } = useNotesEntries()
+  dayjs.locale(localeJa)
 
   const deleteFunc = () => {
     if (confirm('削除してよろしいですか？')) {
@@ -47,8 +49,10 @@ export const MyArticleBox = ({
         <MdClose />
       </button>
       <NextLink className='p-8 block' href={`/notes/${id}`}>
-        <div>{umlTitle(content)}</div>
-        <div>{date}</div>
+        <div className='text-center mb-2'>{umlTitle(content)}</div>
+        <div className='text-center text-gray-400'>
+          {dayjs(date).format('YYYY/MM/DD（dd） HH:mm')}
+        </div>
       </NextLink>
     </MyBox>
   )

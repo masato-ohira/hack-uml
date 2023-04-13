@@ -1,6 +1,13 @@
 import { MyHeader } from '@/components/ui'
 import { Global, css } from '@emotion/react'
 import { ReactNode } from 'react'
+// import { Noto_Sans_JP } from 'next/font/google'
+
+// const notoSans = Noto_Sans_JP({
+//   weight: ['400', '500', '700', '900'],
+//   subsets: ['latin'],
+//   display: 'swap',
+// })
 
 type LyoutProps = {
   children: ReactNode
@@ -8,7 +15,7 @@ type LyoutProps = {
 
 export const LayoutDefault = ({ children }: LyoutProps) => {
   return (
-    <>
+    <div>
       <Global
         styles={css`
           html {
@@ -18,6 +25,6 @@ export const LayoutDefault = ({ children }: LyoutProps) => {
       />
       <MyHeader />
       <main className='pt-12'>{children}</main>
-    </>
+    </div>
   )
 }

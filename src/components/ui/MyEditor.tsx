@@ -71,6 +71,11 @@ export const MyEditor = () => {
                 width={'100%'}
                 fontSize={16}
                 defaultValue={cloneDeep(content)}
+                style={{
+                  // fontFamily: 'Noto Sans JP',
+                  // fontFeatureSettings: `"palt" 1, "jp90"`,
+                  letterSpacing: 0,
+                }}
                 wrapEnabled={true}
               />
             </div>

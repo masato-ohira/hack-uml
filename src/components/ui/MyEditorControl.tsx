@@ -22,7 +22,6 @@ export const MyEditorControl = () => {
           className={classNames(buttonClass, zoom <= -5 ? disabledClass : '')}
           onClick={() => {
             setZoom(zoom - 1)
-            console.log(zoom)
           }}
         >
           <MdRemove size={20} />
@@ -31,7 +30,6 @@ export const MyEditorControl = () => {
           className={classNames(buttonClass, zoom >= 20 ? disabledClass : '')}
           onClick={() => {
             setZoom(zoom + 1)
-            console.log(zoom)
           }}
         >
           <MdAdd size={20} />
