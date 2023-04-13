@@ -1,6 +1,6 @@
 import { atom, useRecoilState } from 'recoil'
 import { encode as umlEncode } from 'plantuml-encoder'
-import { filter, keyBy, get, cloneDeep, chain } from 'lodash-es'
+import { filter, keyBy, get, cloneDeep, chain, orderBy } from 'lodash-es'
 import { recoilPersist } from 'recoil-persist'
 import { defaultUmls } from './notes.default'
 
@@ -89,12 +89,16 @@ export const useNotesEntries = () => {
     editEntry(entry)
   }
 
-  const recentEntries = chain(entries)
-    .orderBy('date', 'desc')
-    .orderBy('favorite', 'desc')
-    .value()
-
-  // orderBy(entries, ['favorite', 'date'], 'desc')
+  const recentEntries = () => {
+    try {
+      let output = cloneDeep(entries)
+      output = orderBy(output, 'date', 'desc')
+      output = orderBy(output, 'favorite', 'desc')
+      return output
+    } catch (error) {
+      return []
+    }
+  }
 
   return {
     entries,

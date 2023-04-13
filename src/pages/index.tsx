@@ -28,7 +28,7 @@ const Index = () => {
       <MyContainer>
         <NoSSR>
           <MyGrid gap={'gap-3 lg:gap-6'}>
-            {recentEntries.map((i: NotesEntryType, key) => {
+            {recentEntries().map((i: NotesEntryType, key) => {
               return <MyArticleBox key={key} {...i} />
             })}
           </MyGrid>
