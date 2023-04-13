@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { useNotesEntries, NotesEntryType } from '@/recoil/notes'
 import { MyContainer, MyGrid, MyTransition } from '@/components/ui'
 import { MyArticleBox } from '@/components/views/MyArticleBox'
+import NoSSR from 'react-no-ssr'
 
 // import { useImages } from '@/recoil/images'
 
@@ -25,18 +26,13 @@ const Index = () => {
   return (
     <MyTransition>
       <MyContainer>
-        <MyGrid gap={'gap-3 lg:gap-6'}>
-          {recentEntries.map((i: NotesEntryType, key) => {
-            return (
-              <MyArticleBox
-                key={key}
-                id={i.id}
-                content={i.content}
-                date={i.date}
-              />
-            )
-          })}
-        </MyGrid>
+        <NoSSR>
+          <MyGrid gap={'gap-3 lg:gap-6'}>
+            {recentEntries.map((i: NotesEntryType, key) => {
+              return <MyArticleBox key={key} {...i} />
+            })}
+          </MyGrid>
+        </NoSSR>
       </MyContainer>
     </MyTransition>
   )

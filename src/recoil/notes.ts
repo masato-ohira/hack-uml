@@ -1,6 +1,45 @@
 import { atom, useRecoilState } from 'recoil'
 import { encode as umlEncode } from 'plantuml-encoder'
-import { filter, keyBy, get, orderBy } from 'lodash-es'
+import { filter, keyBy, get, orderBy, cloneDeep, chain } from 'lodash-es'
+import { recoilPersist } from 'recoil-persist'
+const { persistAtom } = recoilPersist()
+
+export const notesContent = atom<string>({
+  key: 'notes/content',
+  default: '',
+})
+
+export type NotesEntryType = {
+  id: string
+  date: string
+  favorite: boolean
+  content: string
+}
+
+export const notesEntries = atom<NotesEntryType[]>({
+  key: 'notes/entries',
+  default: [
+    {
+      id: 'e9c28ca8-900d-498d-b34d-6f54ba6d179d',
+      date: '2023-04-01T00:00:00',
+      favorite: false,
+      content: `@startuml
+title plantUMLの例
+start
+:商品選択;
+if (在庫がある) then (yes)
+  :購入処理;
+else (no)
+  :在庫なしメッセージ表示;
+endif
+:支払い処理;
+:商品配送;
+stop
+@enduml`,
+    },
+  ],
+  effects_UNSTABLE: [persistAtom],
+})
 
 export const umlTitle = (str: string) => {
   // 改行コードで文字列を分割し、各行を配列の要素にする
@@ -19,40 +58,6 @@ export const umlTitle = (str: string) => {
 
   return title ? title : 'UNTITLED'
 }
-
-export const notesContent = atom<string>({
-  key: 'notes/content',
-  default: '',
-})
-
-export type NotesEntryType = {
-  id: string
-  date: string
-  content: string
-}
-
-export const notesEntries = atom<NotesEntryType[]>({
-  key: 'notes/entries',
-  default: [
-    {
-      id: 'e9c28ca8-900d-498d-b34d-6f54ba6d179d',
-      date: '2023-04-01T00:00:00',
-      content: `@startuml
-title plantUMLの例
-start
-:商品選択;
-if (在庫がある) then (yes)
-  :購入処理;
-else (no)
-  :在庫なしメッセージ表示;
-endif
-:支払い処理;
-:商品配送;
-stop
-@enduml`,
-    },
-  ],
-})
 
 export const useNote = () => {
   const [content, setContent] = useRecoilState(notesContent)
@@ -88,11 +93,22 @@ export const useNotesEntries = () => {
     setEntries(filtered)
   }
 
-  const viewEntry = (key: string) => {
-    return get(keyBy(entries, 'id'), key)
+  const viewEntry = (id: string) => {
+    return get(keyBy(entries, 'id'), id)
   }
 
-  const recentEntries = orderBy(entries, 'date', 'desc')
+  const toggleFavorite = (id: string) => {
+    const entry = cloneDeep(viewEntry(id))
+    entry.favorite = !entry.favorite
+    editEntry(entry)
+  }
+
+  const recentEntries = chain(entries)
+    .orderBy('date', 'desc')
+    .orderBy('favorite', 'desc')
+    .value()
+
+  // orderBy(entries, ['favorite', 'date'], 'desc')
 
   return {
     entries,
@@ -101,5 +117,6 @@ export const useNotesEntries = () => {
     editEntry,
     viewEntry,
     removeEntry,
+    toggleFavorite,
   }
 }

@@ -8,6 +8,7 @@ import { useNotesEntries } from '@/recoil/notes'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { v4 as uuidV4 } from 'uuid'
+import { isString } from 'lodash-es'
 
 export const MyHeader = () => {
   const router = useRouter()
@@ -31,6 +32,7 @@ export const MyHeader = () => {
     router.push(`/notes/${noteID}`)
     addEntry({
       id: noteID,
+      favorite: false,
       date: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
       content: `@startuml
 title タイトルを入力してください
@@ -52,7 +54,7 @@ stop
               <h1 className={'font-bold text-lg'}>HackUML</h1>
             </MyHStack>
           </NextLink>
-          {router.query.id && (
+          {isString(router.query.id) && (
             <>
               <div className='flex'>
                 <button
@@ -83,17 +85,20 @@ stop
             </>
           )}
         </MyHStack>
-        <a
-          className='block'
-          onClick={() => {
-            addNewEntry()
-          }}
-        >
-          <MyButton padding={'px-3 py-1'}>
-            <MdAdd size={18} />
-            <span>新規登録</span>
-          </MyButton>
-        </a>
+
+        {!isString(router.query.id) && (
+          <a
+            className='block'
+            onClick={() => {
+              addNewEntry()
+            }}
+          >
+            <MyButton padding={'px-3 py-1'}>
+              <MdAdd size={18} />
+              <span>新規登録</span>
+            </MyButton>
+          </a>
+        )}
       </div>
     </>
   )

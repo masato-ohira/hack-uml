@@ -19,7 +19,7 @@ const AceEditor = dynamic(
 
 export const MyEditor = () => {
   const { setContent, content, svgURL } = useNote()
-  const { editEntry } = useNotesEntries()
+  const { editEntry, viewEntry } = useNotesEntries()
   const { mode } = useEditor()
   const router = useRouter()
 
@@ -41,11 +41,13 @@ export const MyEditor = () => {
   const onChange = (text: string) => {
     setContent(text)
     const id = router.query.id
-    const date = dayjs().format('YYYY-MM-DDTHH:mm:ss')
 
     if (isString(id)) {
+      const entry = viewEntry(id)
+      const date = dayjs().format('YYYY-MM-DDTHH:mm:ss')
       editEntry({
-        id,
+        id: entry.id,
+        favorite: entry.favorite,
         date,
         content: text,
       })

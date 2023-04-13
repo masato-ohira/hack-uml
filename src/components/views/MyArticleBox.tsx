@@ -4,19 +4,17 @@ import NextLink from 'next/link'
 import { umlTitle } from '@/recoil/notes'
 import { MdPushPin, MdClose } from 'react-icons/md'
 import { MyBox } from '@/components/ui'
+import classNames from 'classnames'
 
-import { useNotesEntries } from '@/recoil/notes'
+import { useNotesEntries, NotesEntryType } from '@/recoil/notes'
 
-type ArticleProps = {
-  id: string
-  date: string
-  content: string
-}
-
-export const MyArticleBox = ({ id, date, content = '' }: ArticleProps) => {
-  const { removeEntry } = useNotesEntries()
-  const className =
-    'block absolute top-2 text-2xl text-gray-400 hover:text-gray-900'
+export const MyArticleBox = ({
+  id,
+  date,
+  content,
+  favorite,
+}: NotesEntryType) => {
+  const { removeEntry, toggleFavorite } = useNotesEntries()
 
   const deleteFunc = () => {
     if (confirm('削除してよろしいですか？')) {
@@ -26,10 +24,28 @@ export const MyArticleBox = ({ id, date, content = '' }: ArticleProps) => {
 
   return (
     <MyBox myClass='p-0 relative'>
-      <a className={`${className} left-2`}>
+      <a
+        className={classNames(
+          `block absolute top-2 text-2xl`,
+          `left-2`,
+          `cursor-pointer`,
+          favorite ? `text-red-600` : `text-gray-400 hover:text-gray-900`,
+        )}
+        onClick={() => {
+          toggleFavorite(id)
+        }}
+      >
         <MdPushPin />
       </a>
-      <a className={`${className} right-2`} onClick={deleteFunc}>
+      <a
+        className={classNames(
+          `block absolute top-2 text-2xl`,
+          `right-2`,
+          `cursor-pointer`,
+          `text-gray-400 hover:text-gray-900`,
+        )}
+        onClick={deleteFunc}
+      >
         <MdClose />
       </a>
       <NextLink className='p-8 block' href={`/notes/${id}`}>
