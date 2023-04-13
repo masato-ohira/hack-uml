@@ -1,8 +1,13 @@
 import { atom, useRecoilState } from 'recoil'
 import { encode as umlEncode } from 'plantuml-encoder'
-import { filter, keyBy, get, orderBy, cloneDeep, chain } from 'lodash-es'
+import { filter, keyBy, get, cloneDeep, chain } from 'lodash-es'
 import { recoilPersist } from 'recoil-persist'
-const { persistAtom } = recoilPersist()
+import { defaultUmls } from './notes.default'
+
+const { persistAtom } = recoilPersist({
+  key: 'hack-uml-recoil',
+  storage: typeof window === 'undefined' ? undefined : localStorage,
+})
 
 export const notesContent = atom<string>({
   key: 'notes/content',
@@ -18,26 +23,7 @@ export type NotesEntryType = {
 
 export const notesEntries = atom<NotesEntryType[]>({
   key: 'notes/entries',
-  default: [
-    {
-      id: 'e9c28ca8-900d-498d-b34d-6f54ba6d179d',
-      date: '2023-04-01T00:00:00',
-      favorite: false,
-      content: `@startuml
-title plantUMLの例
-start
-:商品選択;
-if (在庫がある) then (yes)
-  :購入処理;
-else (no)
-  :在庫なしメッセージ表示;
-endif
-:支払い処理;
-:商品配送;
-stop
-@enduml`,
-    },
-  ],
+  default: defaultUmls,
   effects_UNSTABLE: [persistAtom],
 })
 

@@ -24,11 +24,10 @@ export const MyArticleBox = ({
 
   return (
     <MyBox myClass='p-0 relative'>
-      <a
+      <button
         className={classNames(
           `block absolute top-2 text-2xl`,
           `left-2`,
-          `cursor-pointer`,
           favorite ? `text-red-600` : `text-gray-400 hover:text-gray-900`,
         )}
         onClick={() => {
@@ -36,18 +35,17 @@ export const MyArticleBox = ({
         }}
       >
         <MdPushPin />
-      </a>
-      <a
+      </button>
+      <button
         className={classNames(
           `block absolute top-2 text-2xl`,
           `right-2`,
-          `cursor-pointer`,
           `text-gray-400 hover:text-gray-900`,
         )}
         onClick={deleteFunc}
       >
         <MdClose />
-      </a>
+      </button>
       <NextLink className='p-8 block' href={`/notes/${id}`}>
         <div>{umlTitle(content)}</div>
         <div>{date}</div>

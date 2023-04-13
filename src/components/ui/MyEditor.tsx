@@ -5,6 +5,7 @@ import { useEditor } from '@/recoil/editor'
 import { cloneDeep, isString } from 'lodash-es'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
+import { MyEditorControl } from '@/components/ui'
 
 const AceEditor = dynamic(
   async () => {
@@ -20,7 +21,7 @@ const AceEditor = dynamic(
 export const MyEditor = () => {
   const { setContent, content, svgURL } = useNote()
   const { editEntry, viewEntry } = useNotesEntries()
-  const { mode } = useEditor()
+  const { mode, zoom } = useEditor()
   const router = useRouter()
 
   const showEditor = () => {
@@ -78,13 +79,25 @@ export const MyEditor = () => {
 
         {showPreview() && (
           <>
-            <div className='p-4 overflow-y-auto bg-white' css={computedHeight}>
+            <div
+              className='p-4 overflow-y-auto bg-white relative'
+              css={[computedHeight]}
+            >
               {content && (
                 <>
                   {/* <p className='text-center'>{umlTitle()}</p> */}
-                  <img className='h-fit mx-auto' src={svgURL()} alt='' />
+                  <img
+                    className='h-fit mx-auto'
+                    css={css`
+                      transform: scale(${1 + 0.2 * zoom});
+                      transform-origin: 50% 0 0;
+                    `}
+                    src={svgURL()}
+                    alt=''
+                  />
                 </>
               )}
+              <MyEditorControl />
             </div>
           </>
         )}
