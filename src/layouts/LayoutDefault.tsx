@@ -15,7 +15,7 @@ type LyoutProps = {
 
 export const LayoutDefault = ({ children }: LyoutProps) => {
   return (
-    <div>
+    <div className='font-sans'>
       <Global
         styles={css`
           html {
