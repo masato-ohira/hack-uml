@@ -1,11 +1,11 @@
 import { MyButton, MyHStack } from '@/components/ui'
-import { MdRemoveRedEye, MdEdit, MdAdd } from 'react-icons/md'
+import { MdRemoveRedEye, MdEdit, MdAdd, MdFactory } from 'react-icons/md'
 import { BsLayoutSplit } from 'react-icons/bs'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 import { useEditor } from '@/recoil/editor'
 import { useNotesEntries } from '@/recoil/notes'
-import clsx from 'clsx'
+import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { v4 as uuidV4 } from 'uuid'
 
@@ -20,22 +20,22 @@ export const MyHeader = () => {
     const bgClassActive = `bg-gray-300 hover:bg-gray-300`
 
     if (isActive(key)) {
-      return clsx(defaultClass, bgClassActive)
+      return classNames(defaultClass, bgClassActive)
     } else {
-      return clsx(defaultClass, bgClass)
+      return classNames(defaultClass, bgClass)
     }
   }
 
-  const addNewEntry = () => {
+  const addNewEntry = async () => {
     const noteID = uuidV4()
     router.push(`/notes/${noteID}`)
     addEntry({
       id: noteID,
-      date: dayjs().format('YYYY/MM/DD HH:mm:ss'),
-      content: `
-@startuml
+      date: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+      content: `@startuml
 title タイトルを入力してください
 start
+
 stop
 @enduml
       `,
@@ -47,7 +47,10 @@ stop
       <div className='flex flex-wrap justify-between shadow-sm items-center h-12 px-4 bg-gray-50 fixed w-full l-0 t-0 z-50'>
         <MyHStack gap={'gap-6'} center>
           <NextLink href={'/'}>
-            <h1 className={'font-bold text-lg'}>HackUML</h1>
+            <MyHStack center gap='gap-2'>
+              <MdFactory size={24} className='-mt-1' />
+              <h1 className={'font-bold text-lg'}>HackUML</h1>
+            </MyHStack>
           </NextLink>
           {router.query.id && (
             <>

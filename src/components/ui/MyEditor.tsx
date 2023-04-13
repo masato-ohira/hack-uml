@@ -1,8 +1,10 @@
 import dynamic from 'next/dynamic'
-import { useNote } from '@/recoil/notes'
+import { useNote, useNotesEntries } from '@/recoil/notes'
 import { css } from '@emotion/react'
 import { useEditor } from '@/recoil/editor'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep, isString } from 'lodash-es'
+import { useRouter } from 'next/router'
+import dayjs from 'dayjs'
 
 const AceEditor = dynamic(
   async () => {
@@ -16,8 +18,11 @@ const AceEditor = dynamic(
 )
 
 export const MyEditor = () => {
-  const { setContent, content, umlTitle, svgURL } = useNote()
+  const { setContent, content, svgURL } = useNote()
+  const { editEntry } = useNotesEntries()
   const { mode } = useEditor()
+  const router = useRouter()
+
   const showEditor = () => {
     return mode == 'split' || mode == 'edit'
   }
@@ -35,6 +40,16 @@ export const MyEditor = () => {
 
   const onChange = (text: string) => {
     setContent(text)
+    const id = router.query.id
+    const date = dayjs().format('YYYY-MM-DDTHH:mm:ss')
+
+    if (isString(id)) {
+      editEntry({
+        id,
+        date,
+        content: text,
+      })
+    }
   }
 
   return (

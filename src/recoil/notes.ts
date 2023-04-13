@@ -1,6 +1,6 @@
 import { atom, useRecoilState } from 'recoil'
 import { encode as umlEncode } from 'plantuml-encoder'
-import { filter, keyBy, get } from 'lodash-es'
+import { filter, keyBy, get, orderBy } from 'lodash-es'
 
 export const umlTitle = (str: string) => {
   // 改行コードで文字列を分割し、各行を配列の要素にする
@@ -36,7 +36,7 @@ export const notesEntries = atom<NotesEntryType[]>({
   default: [
     {
       id: 'e9c28ca8-900d-498d-b34d-6f54ba6d179d',
-      date: '2023-04-12',
+      date: '2023-04-01T00:00:00',
       content: `@startuml
 title plantUMLの例
 start
@@ -92,8 +92,11 @@ export const useNotesEntries = () => {
     return get(keyBy(entries, 'id'), key)
   }
 
+  const recentEntries = orderBy(entries, 'date', 'desc')
+
   return {
     entries,
+    recentEntries,
     addEntry,
     editEntry,
     viewEntry,

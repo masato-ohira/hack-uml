@@ -3,13 +3,13 @@ import { times } from 'lodash-es'
 import { useMemo } from 'react'
 
 import { useNotesEntries, NotesEntryType } from '@/recoil/notes'
-import { MyContainer, MyGrid } from '@/components/ui'
+import { MyContainer, MyGrid, MyTransition } from '@/components/ui'
 import { MyArticleBox } from '@/components/views/MyArticleBox'
 
 // import { useImages } from '@/recoil/images'
 
 const Index = () => {
-  const { entries } = useNotesEntries()
+  const { entries, recentEntries } = useNotesEntries()
 
   const posts = useMemo(() => {
     return times(16, (n) => {
@@ -23,10 +23,10 @@ const Index = () => {
   }, [])
 
   return (
-    <>
+    <MyTransition>
       <MyContainer>
         <MyGrid gap={'gap-3 lg:gap-6'}>
-          {entries.map((i: NotesEntryType, key) => {
+          {recentEntries.map((i: NotesEntryType, key) => {
             return (
               <MyArticleBox
                 key={key}
@@ -38,7 +38,7 @@ const Index = () => {
           })}
         </MyGrid>
       </MyContainer>
-    </>
+    </MyTransition>
   )
 }
 
